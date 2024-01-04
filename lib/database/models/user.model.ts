@@ -11,4 +11,4 @@ const UserSchema = new Schema<SchemaDefinition>({
 
 const User = models.User || model("User", UserSchema);
 
-export { User };
+export default User;
