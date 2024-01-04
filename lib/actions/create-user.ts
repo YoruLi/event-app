@@ -41,16 +41,16 @@ export const updateUser = async (clerkId: string, user: UpdateUserParams) => {
   });
 };
 
-// export const deleteUser = async (clerkId: string) => {
-//   return await executeSafely(async () => {
-//     await connectToDatabase();
-//     const userToDelete = await User.findOne({ clerkId });
+export const deleteUser = async (clerkId: string) => {
+  return await executeSafely(async () => {
+    await connectToDatabase();
+    const userToDelete = await User.findOne({ clerkId });
 
-//     if (!userToDelete) throw new Error("User not found");
+    if (!userToDelete) throw new Error("User not found");
 
-//     const deleteUser = await User.findByIdAndDelete(userToDelete._id);
-//     revalidatePath("/");
+    const deleteUser = await User.findByIdAndDelete(userToDelete._id);
+    revalidatePath("/");
 
-//     return deleteUser ? JSON.parse(JSON.stringify(deleteUser)) : null;
-//   });
-// };
+    return deleteUser ? JSON.parse(JSON.stringify(deleteUser)) : null;
+  });
+};
