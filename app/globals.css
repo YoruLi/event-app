@@ -83,6 +83,12 @@ textarea {
   resize: none;
 }
 
+button {
+  --tw-ring-offset-shadow: none !important;
+  --tw-ring-shadow: none !important;
+  box-shadow: none !important;
+}
+
 .animate-auth-button {
   --duration: 2s;
   --delay: 1s;
