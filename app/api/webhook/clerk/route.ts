@@ -1,3 +1,5 @@
+import { createUser } from "@/lib/actions/create-user";
+import { clerkClient } from "@clerk/nextjs";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
@@ -47,8 +49,7 @@ export async function POST(req: Request) {
   console.log(`Webhook with the id of ${id} and type ${eventType}`);
 
   if (eventType === "user.created") {
-    const { id, email_addresses, image_url, first_name, last_name, username } =
-      evt.data;
+    const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
     const user = {
       clerkId: id,
@@ -59,7 +60,16 @@ export async function POST(req: Request) {
       photo: image_url,
     };
 
-    // const newUser = await createUser(user)
+    const newUser = await createUser(user);
+    if (newUser) {
+      await clerkClient.users.updateUserMetadata(id, {
+        publicMetadata: {
+          userId: newUser._id,
+        },
+      });
+    }
+    return NextResponse.json({ message: "OK", user: newUser });
   }
-  return NextResponse.json("", { status: 200 });
+
+  return new Response("", { status: 200 });
 }
