@@ -7,7 +7,7 @@ import { Webhook } from "svix";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
-
+  console.log(WEBHOOK_SECRET);
   if (!WEBHOOK_SECRET) {
     throw new Error("WEBHOOK SECRET was not provided");
   }
@@ -44,11 +44,11 @@ export async function POST(req: Request) {
       status: 400,
     });
   }
-
+  console.log(evt);
   const { id } = evt.data;
   const eventType = evt.type;
   console.log(`Webhook with the id of ${id} and type ${eventType}`);
-
+  console.log(evt.data);
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
       lastName: last_name ?? "",
       photo: image_url,
     };
-
+    console.log(user);
     const newUser = await createUser(user);
     console.log(newUser);
 
