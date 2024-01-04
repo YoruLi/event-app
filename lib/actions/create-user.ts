@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../database/conn";
 import { Event } from "../database/models/event.model";
-import { User } from "../database/models/user.model";
+import User from "../database/models/user.model";
 import { executeSafely } from "../utils";
 
 type IUser = {
