@@ -1,5 +1,6 @@
 import { createUser } from "@/lib/actions/create-user";
 import { clerkClient } from "@clerk/nextjs";
+import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
@@ -35,12 +36,12 @@ export async function POST(req: Request) {
       "svix-id": svix_id,
       "svix-signature": svix_signature,
       "svix-timestamp": svix_timestamp,
-    });
+    }) as WebhookEvent;
   } catch (error) {
     console.error("Error verifying clerk Webhook: ", error);
 
     return NextResponse.json("Error ocurred", {
-      status: 500,
+      status: 400,
     });
   }
 
@@ -53,8 +54,8 @@ export async function POST(req: Request) {
 
     const user = {
       clerkId: id,
-      email: email_addresses[0].email_addresses,
-      username,
+      email: email_addresses[0].email_address,
+      username: username!,
       firstName: first_name,
       lastName: last_name,
       photo: image_url,
