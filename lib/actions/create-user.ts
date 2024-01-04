@@ -26,6 +26,7 @@ export const createUser = async (user: IUser) => {
   return await executeSafely(async () => {
     await connectToDatabase();
     const newUser = await User.create(user);
+
     return JSON.parse(JSON.stringify(newUser));
   });
 };
