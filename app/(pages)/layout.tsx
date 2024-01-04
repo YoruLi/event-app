@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+
 import "@fontsource/paytone-one";
 import Header from "@/components/header";
+import MobileNavbar from "@/components/mobile-navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -13,10 +13,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} `}>{children}</body>
-      </html>
-    </ClerkProvider>
+    <>
+      <Header />
+      <main className="min-h-[calc(100dvh-56px)] w-full  bg-contain py-5 md:py-10 px-4">
+        {children}
+      </main>
+      <MobileNavbar />
+    </>
   );
 }
