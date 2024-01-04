@@ -20,6 +20,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "./ui/input";
+import { Svg } from "./ui/svg";
+import { svgs } from "@/data/svgs";
+
 export default function Dropwdown({}) {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
@@ -34,10 +37,12 @@ export default function Dropwdown({}) {
 
   return (
     <>
-      <div>Dropwdown</div>;
       <Select defaultValue={""}>
         <SelectTrigger className="select-field">
-          <SelectValue placeholder="Category" />
+          <SelectValue
+            placeholder="Category"
+            className="!outline-none [--tw-ring-shadow:none] !ring-0 !ring-offset-0 !focus:ring-0 !focus:ring-offset-0 border-0"
+          />
         </SelectTrigger>
         <SelectContent>
           {/* {categories.length > 0 &&
@@ -52,10 +57,10 @@ export default function Dropwdown({}) {
             ))} */}
 
           <AlertDialog>
-            <AlertDialogTrigger className="p-medium-14 flex w-full rounded-sm py-3 pl-8 text-primary-500 hover:bg-primary-50 focus:text-primary-500">
-              Add new category
+            <AlertDialogTrigger className="  w-full rounded-sm py-1 grid place-items-center  mx-auto text-primary-500 hover:bg-primary-50 focus:text-primary-500">
+              <Svg path={svgs.add.path} viewBox={svgs.add.viewBox} />
             </AlertDialogTrigger>
-            <AlertDialogContent className="bg-white">
+            <AlertDialogContent className="bg-white rounded-lg">
               <AlertDialogHeader>
                 <AlertDialogTitle>New Category</AlertDialogTitle>
                 <AlertDialogDescription>
@@ -69,7 +74,10 @@ export default function Dropwdown({}) {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => startTransition(handleAddCategory)}>
+                <AlertDialogAction
+                  onClick={() => startTransition(handleAddCategory)}
+                  className="bg-violet-600"
+                >
                   Add
                 </AlertDialogAction>
               </AlertDialogFooter>

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import Dropwdown from "./dropdown";
 
 type EventSchema = {
   title: string;
@@ -47,7 +48,7 @@ export default function EventForm() {
           <FormField
             name="title"
             control={form.control}
-            render={({ field, fieldState, formState }) => <Input placeholder="Event title..." />}
+            render={({ field, fieldState, formState }) => <Dropwdown />}
           />
           <FormField
             name="title"

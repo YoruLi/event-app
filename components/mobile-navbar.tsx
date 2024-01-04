@@ -24,8 +24,6 @@ export default function MobileNavbar() {
 
   const [hoveredRect, setHoveredRect] = React.useState<DOMRect | null | undefined>(null);
 
-  const [isHovered, setIsHovered] = React.useState(pathname);
-
   const navRef = React.useRef<HTMLDivElement>(null);
   const navRect = navRef.current?.getBoundingClientRect();
 
@@ -71,17 +69,15 @@ export default function MobileNavbar() {
               key={route}
               onMouseEnter={(e) => {
                 onEnterTab(e, index);
-                setIsHovered(route);
               }}
               onPointerEnter={(e) => {
                 onEnterTab(e, index);
-                setIsHovered(route);
               }}
               className=" text-current px-6 bg-transparent transition-colors rounded"
             >
               {icon ? <Svg path={svgs[icon].path} viewBox={svgs[icon].viewBox} /> : label}
 
-              {hoveredRect && navRect && isHovered && (
+              {hoveredRect && navRect && (
                 <motion.div
                   className="absolute top-0 left-0 rounded-md bg-zinc-200 dark:bg-zinc-800 -z-20 "
                   initial={{
