@@ -65,6 +65,6 @@ const EventSchema = new Schema<SchemaDefinition>({
   },
 });
 
-const Event = models.Event || model("Event", EventSchema);
+const Event = models?.Event || model("Event", EventSchema);
 
 export { Event };

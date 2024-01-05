@@ -50,7 +50,7 @@ export default function MobileNavbar() {
     <>
       <nav
         ref={navRef}
-        className=" fixed flex justify-evenly bg-white  items-center  bottom-4 left-0 right-0 rounded-full max-w-sm py-2 mx-auto w-full animate-fade-up !animate-delay-[2000ms] animate-once "
+        className=" fixed flex justify-evenly bg-white  items-center  bottom-4 left-0 right-0 rounded-full max-w-sm  py-1 mx-auto w-full animate-fade-up !animate-delay-[2000ms] animate-once "
         style={{
           boxShadow: "0 0 4px rgba(0, 0, 0, 0.2 )",
         }}
@@ -73,7 +73,7 @@ export default function MobileNavbar() {
               onPointerEnter={(e) => {
                 onEnterTab(e, index);
               }}
-              className=" text-current px-6 bg-transparent transition-colors rounded"
+              className=" text-current px-6 py-[2px] bg-transparent transition-colors rounded"
             >
               {icon ? <Svg path={svgs[icon].path} viewBox={svgs[icon].viewBox} /> : label}
 
