@@ -6,7 +6,7 @@ export const createCategory = async ({ name }: { name: string }) => {
   return await executeSafely(async () => {
     await connectToDatabase();
 
-    const category = await Category.create(name);
+    const category = await Category.create({ name: name });
 
     return JSON.parse(JSON.stringify(category));
   });
