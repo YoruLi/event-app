@@ -11,7 +11,12 @@ type EventSchema = {
   title: string;
   description: string;
 };
-export default function EventForm() {
+
+interface EventFormProps {
+  userId: string;
+}
+
+export default function EventForm({ userId }: EventFormProps) {
   const [description, setDescription] = React.useState("");
   const eventSchema = z.object({
     title: z.string(),

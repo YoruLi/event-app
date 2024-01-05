@@ -22,25 +22,14 @@ export type UpdateUserParams = {
   photo: string;
 };
 
-// export const createUser = async (user: IUser) => {
-//   return await executeSafely(async () => {
-//     await connectToDatabase();
-//     const newUser = await User.create(user);
-
-//     return JSON.parse(JSON.stringify(newUser));
-//   });
-// };
-
-export async function createUser(user: IUser) {
-  try {
+export const createUser = async (user: IUser) => {
+  return await executeSafely(async () => {
     await connectToDatabase();
-
     const newUser = await User.create(user);
+
     return JSON.parse(JSON.stringify(newUser));
-  } catch (error) {
-    console.error(error);
-  }
-}
+  });
+};
 
 export const updateUser = async (clerkId: string, user: UpdateUserParams) => {
   return await executeSafely(async () => {

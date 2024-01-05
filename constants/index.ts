@@ -15,7 +15,7 @@ export const NAV_LINKS: NavLink[] = [
   },
   {
     label: "Create Events",
-    route: "/create-event",
+    route: "events/create",
     icon: "create",
   },
 
