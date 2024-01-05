@@ -22,15 +22,27 @@ import {
 import { Input } from "./ui/input";
 import { Svg } from "./ui/svg";
 import { svgs } from "@/data/svgs";
+import { createCategory, getAllCategories } from "@/lib/actions/category.actions";
+import { ICategory } from "@/lib/database/models/category.model";
 
 export default function Dropwdown({}) {
-  const [categories, setCategories] = useState([]);
-  const [newCategory, setNewCategory] = useState("");
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [newCategory, setNewCategory] = useState<string>("");
 
-  const handleAddCategory = () => {};
+  const handleAddCategory = () => {
+    createCategory({
+      name: newCategory.trim(),
+    }).then((category) => {
+      setCategories((prevState) => [...prevState, category]);
+    });
+  };
 
   useEffect(() => {
-    const getCategories = async () => {};
+    const getCategories = async () => {
+      const categoryList = await getAllCategories();
+
+      categoryList && setCategories(categoryList as ICategory[]);
+    };
 
     getCategories();
   }, []);
@@ -45,7 +57,7 @@ export default function Dropwdown({}) {
           />
         </SelectTrigger>
         <SelectContent>
-          {/* {categories.length > 0 &&
+          {categories.length > 0 &&
             categories.map((category) => (
               <SelectItem
                 key={category._id}
@@ -54,7 +66,7 @@ export default function Dropwdown({}) {
               >
                 {category.name}
               </SelectItem>
-            ))} */}
+            ))}
 
           <AlertDialog>
             <AlertDialogTrigger className="  w-full rounded-sm py-1 grid place-items-center  mx-auto text-primary-500 hover:bg-primary-50 focus:text-primary-500">
