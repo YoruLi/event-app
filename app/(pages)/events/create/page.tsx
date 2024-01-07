@@ -15,7 +15,7 @@ export default function CreateEventPage() {
       <div className="my-10">
         {/* form */}
 
-        <EventForm userId={userId} />
+        <EventForm userId={userId} type="Create" />
       </div>
     </>
   );

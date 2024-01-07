@@ -49,11 +49,15 @@ const EventSchema = new Schema<SchemaDefinition>({
   price: {
     type: String,
   },
+
+  isFree: {
+    type: Boolean,
+    default: false,
+  },
   category: {
-    type: Schema.Types.ObjectId,
+    type: [Schema.Types.ObjectId],
     ref: "Category",
   },
-
   organizer: {
     type: Schema.Types.ObjectId,
     ref: "User",

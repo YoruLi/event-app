@@ -1,5 +1,8 @@
+"use server";
+import mongoose from "mongoose";
 import { Event } from "../database/models/event.model";
 import { executeSafely } from "../utils";
+const ObjectId = mongoose.Types.ObjectId;
 
 export const createEvent = async ({
   data,

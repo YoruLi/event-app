@@ -29,17 +29,18 @@ export default function Dropwdown({
   value,
   onChange,
 }: {
-  value: ICategory[] | [];
+  value: string[];
   onChange: (category: string[]) => void;
 }) {
-  const [selected, setSelected] = React.useState<ICategory[]>(value?.length > 1 ? value : []);
+  const [selected, setSelected] = React.useState(value?.length > 1 ? value : []);
 
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [newCategory, setNewCategory] = useState<string>("");
   const [open, setOpen] = React.useState(false);
 
-  const handleUnselect = (category: ICategory) => {
-    setSelected(selected.filter((item) => item._id !== category._id));
+  const handleUnselect = (category: ICategory["_id"]) => {
+    setSelected(selected.filter((item) => item !== category));
+    onChange([category]);
   };
 
   const handleAddCategory = () => {
@@ -68,17 +69,17 @@ export default function Dropwdown({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className={`flex justify-between gap-3 h-auto `}
+            className={`flex gap-3 h-auto w-full relative `}
             onClick={() => setOpen(!open)}
           >
             <div className="flex gap-1 flex-wrap ">
               {selected?.length && selected.length > 0
                 ? selected.map((item) => {
-                    const selectedItem = categories.find((option) => option._id === item._id);
+                    const selectedItem = categories.find((option) => option._id === item);
                     return (
                       <Badge
                         variant="secondary"
-                        key={item._id}
+                        key={item}
                         className="mr-1 mb-1"
                         onClick={() => handleUnselect(item)}
                       >
@@ -87,12 +88,12 @@ export default function Dropwdown({
                       </Badge>
                     );
                   })
-                : "Seleccionar categoria.."}
+                : "Select categories.."}
             </div>
-            <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50 relative" />
+            <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50 !relative" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className=" p-0 ">
+        <PopoverContent className=" p-0">
           <Command>
             <CommandInput placeholder="Search ..." />
             <CommandEmpty>
@@ -130,13 +131,13 @@ export default function Dropwdown({
                 <CommandItem
                   key={option._id}
                   onSelect={() => {
-                    const newSelected = selected?.some((item) => item._id === option._id)
-                      ? selected.filter((item) => item._id !== option._id)
-                      : [...selected, option];
+                    const newSelected = selected?.some((item) => item === option._id)
+                      ? selected.filter((item) => item !== option._id)
+                      : [...selected, option._id];
 
                     setSelected(newSelected);
 
-                    const updatedSelected = newSelected.map((item) => item._id);
+                    const updatedSelected = newSelected.map((item) => item);
 
                     onChange(updatedSelected);
                     setOpen(true);
@@ -144,7 +145,7 @@ export default function Dropwdown({
                 >
                   <Check
                     className={cn("mr-2 h-4 w-4 opacity-0", {
-                      "opacity-100": selected.some((item) => item._id === option._id),
+                      "opacity-100": selected.some((item) => item === option._id),
                     })}
                   />
                   {option?.name}

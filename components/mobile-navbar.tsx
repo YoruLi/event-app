@@ -54,9 +54,6 @@ export default function MobileNavbar() {
         style={{
           boxShadow: "0 0 4px rgba(0, 0, 0, 0.2 )",
         }}
-        onPointerLeave={() => {
-          onEnterTab();
-        }}
         onMouseLeave={() => {
           onEnterTab();
         }}
@@ -68,9 +65,6 @@ export default function MobileNavbar() {
               href={route}
               key={route}
               onMouseEnter={(e) => {
-                onEnterTab(e, index);
-              }}
-              onPointerEnter={(e) => {
                 onEnterTab(e, index);
               }}
               className=" text-current px-6 py-[2px] bg-transparent transition-colors rounded"

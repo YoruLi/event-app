@@ -75,7 +75,7 @@
   }
   .input,
   textarea {
-    @apply relative border-0 bg-gray-200  outline-offset-0 focus:bg-gray-300/80 transition-colors  focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply relative border-0 bg-muted  outline-offset-0 focus:bg-gray-300/80 transition-colors  focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
   }
 }
 
@@ -87,6 +87,12 @@ button {
   --tw-ring-offset-shadow: none !important;
   --tw-ring-shadow: none !important;
   box-shadow: none !important;
+}
+
+@layer utilities {
+  .input-field {
+    @apply relative border-0 bg-muted  outline-offset-0 focus:bg-gray-300/80 transition-colors  focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+  }
 }
 
 .animate-auth-button {

@@ -15,3 +15,21 @@ export const executeSafely = async <T>(
     throw error;
   }
 };
+
+export const formatDate = ({ date, format }: { date: Date | number | null; format?: string }) => {
+  if (!date) return;
+
+  const dateFormat: Intl.DateTimeFormatOptions = {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
+  return new Intl.DateTimeFormat("es", dateFormat).format(date);
+};
+
+export const convertFileToURL = (file: File) => {
+  return URL.createObjectURL(file);
+};
