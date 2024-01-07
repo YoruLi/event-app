@@ -34,7 +34,7 @@ export default function Home() {
           }
         )}
       />
-      <div className={cn("grid place-items-center h-screen bg-[#141322] ")}>
+      <div className={cn("grid place-items-center h-screen bg-[#141322]")}>
         <h1 className="lg:text-7xl text-6xl font-bold font-paytone animate-heading z-20 text-balance text-center bg-clip-text  text-white  ">
           <span
             className={cn("transition-colors delay-100 duration-700", {
