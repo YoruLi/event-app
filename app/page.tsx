@@ -73,7 +73,6 @@ export default function Home() {
               <Link href={"/home"}>Go Home</Link>
             </Button>
           </SignedIn>
-          iI
         </div>
       </div>
     </>
