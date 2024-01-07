@@ -35,7 +35,7 @@ export default function Home() {
           }
         )}
       />
-      <div className={cn("grid place-items-center h-screen bg-[#141322]")}>
+      <div className={cn("grid place-items-center min-h-dvh bg-[#141322] px-10")}>
         <h1 className="lg:text-7xl text-6xl font-bold font-paytone animate-heading z-20 text-balance text-center bg-clip-text  text-white  ">
           <span
             className={cn("transition-colors delay-100 duration-700", {
@@ -74,7 +74,7 @@ export default function Home() {
           </SignedOut>
 
           <SignedIn>
-            <Button className="bg-transparent hover:bg-inherit border-violet-600 hover:border-violet-500 border *:size-full *:text-violet-100">
+            <Button className="bg-violet-600 hover:bg-violet-800 border-violet-600 hover:border-violet-500 border *:size-full *:text-violet-100">
               <Link href={"/home"}>Go Home</Link>
             </Button>
           </SignedIn>
