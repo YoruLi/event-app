@@ -71,7 +71,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-h-dvh w-full overflow-y-auto overflow-hidden;
   }
   .input,
   textarea {
