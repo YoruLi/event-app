@@ -28,7 +28,7 @@ export default function Home() {
     <>
       <div
         className={cn(
-          `fixed inset-0 transition-colors delay-100 duration-700 opacity-50 object-cover w-full h-screen`,
+          `fixed inset-0 transition-colors delay-100 duration-700 opacity-50 object-cover w-full h-screen overflow-hidden`,
           {
             [`bg-${activeColor}`]: bgColors.includes(activeColor),
           }
