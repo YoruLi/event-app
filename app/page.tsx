@@ -69,7 +69,7 @@ export default function Home() {
             </Button>
           </SignedOut>
           <SignedIn>
-            <Button className="bg-transparent border-violet-600 hover:border-violet-500 border *:size-full">
+            <Button className="bg-transparent border-violet-600 hover:border-violet-500 border *:size-full *:text-violet-100">
               <Link href={"/home"}>Go Home</Link>
             </Button>
           </SignedIn>
