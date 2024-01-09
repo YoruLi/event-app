@@ -2,28 +2,29 @@ import { IEventSchema } from "@/lib/database/models/event.model";
 import React from "react";
 import EventCard from "./event-card";
 import Pagination from "./pagination";
-import { getAllEvents } from "@/lib/actions/event.actions";
+import { getEventsByCategory } from "@/lib/actions/event.actions";
 
-export default async function EventsCollection({
-  category,
-  query,
+export default async function EventsRelated({
+  event,
   pages,
+  totalPages,
 }: {
-  category: any;
-  query: string;
+  event: any;
+  totalPages: any;
   pages: number;
 }) {
-  const { data: events, totalPages } = await getAllEvents({
-    query,
-    category,
-    pages,
+  const { data } = await getEventsByCategory({
+    categoryId: event.category[0]._id,
+    eventId: event._id,
+    limit: 3,
   });
+
   const delay = async (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   await delay(3000);
   return (
     <>
-      {events.length > 0 ? (
+      {data.length > 0 ? (
         <div className="flex flex-col gap-3">
           <ul
             className="grid gap-3 w-full"
@@ -31,7 +32,7 @@ export default async function EventsCollection({
               gridTemplateColumns: "repeat(auto-fill, minmax(280px,1fr))",
             }}
           >
-            {events.map((event, index) => (
+            {data.map((event, index) => (
               <li
                 key={event._id}
                 className={`animate-fade animate-delay-700`}
@@ -48,8 +49,7 @@ export default async function EventsCollection({
         </div>
       ) : (
         <div className="flex min-h-[200px] w-full flex-col gap-3 rounded-[14px] border text-accent-foreground py-28 text-center">
-          <code>No Events Found</code>
-          <code>Come back later</code>
+          <code>No Events Related found</code>
         </div>
       )}
     </>

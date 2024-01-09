@@ -98,7 +98,7 @@ export const getEventsByCategory = async ({
   eventId: string;
   categoryId: string;
   limit: number;
-}) => {
+}): Promise<{ data: IEventSchema[] }> => {
   return await executeSafely(async () => {
     await connectToDatabase();
 

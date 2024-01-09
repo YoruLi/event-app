@@ -1,10 +1,11 @@
 import CheckOut from "@/components/checkout";
-import EventsCollection from "@/components/events-collection";
+
+import EventsRelated from "@/components/events-related";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Svg } from "@/components/ui/svg";
 import { svgs } from "@/data/svgs";
-import { getEventById, getEventsByCategory } from "@/lib/actions/event.actions";
+import { getEventById } from "@/lib/actions/event.actions";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
@@ -12,11 +13,6 @@ import React from "react";
 export default async function page({ params: { id } }: { params: { id: string } }) {
   const event = await getEventById(id);
 
-  const eventsRelated = await getEventsByCategory({
-    categoryId: event.category[0]._id,
-    eventId: event._id,
-    limit: 3,
-  });
   return (
     <>
       <section className="flex justify-center bg-contain">
@@ -91,7 +87,9 @@ export default async function page({ params: { id } }: { params: { id: string } 
       {/* EVENTS with the same category */}
       <section className="wrapper my-8 flex flex-col gap-8 md:gap-12">
         <h2 className="h2-bold">Related Events</h2>
-        <EventsCollection events={eventsRelated?.data} pages={1} totalPages={1} />
+        <React.Suspense fallback={"Loading"}>
+          <EventsRelated pages={1} totalPages={1} event={event} />
+        </React.Suspense>
       </section>
     </>
   );
