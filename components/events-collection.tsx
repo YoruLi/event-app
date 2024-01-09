@@ -18,9 +18,7 @@ export default async function EventsCollection({
     category,
     pages,
   });
-  const delay = async (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  await delay(3000);
   return (
     <>
       {events.length > 0 ? (
