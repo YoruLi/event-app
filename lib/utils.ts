@@ -16,18 +16,35 @@ export const executeSafely = async <T>(
   }
 };
 
-export const formatDate = ({ date, format }: { date: Date | number | null; format?: string }) => {
+export const formatDate = (date: Date) => {
   if (!date) return;
 
-  const dateFormat: Intl.DateTimeFormatOptions = {
-    year: "2-digit",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+    hour: "numeric", // numeric minute (e.g., '30')
+    hour12: true,
   };
 
-  return new Intl.DateTimeFormat("es", dateFormat).format(date);
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "short",
+    month: "short",
+    year: "numeric",
+    day: "numeric",
+  };
+
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+
+  return {
+    formattedDateTime: new Intl.DateTimeFormat("en-US", dateTimeOptions).format(new Date(date)),
+    formattedDate: new Intl.DateTimeFormat("en-US", dateOptions).format(new Date(date)),
+    formattedTime: new Intl.DateTimeFormat("en-US", timeOptions).format(new Date(date)),
+  };
 };
 
 export const convertFileToURL = (file: File) => {

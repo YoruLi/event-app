@@ -75,6 +75,7 @@ export default function EventForm({ userId, type }: EventFormProps) {
     let uploadedImageUrl = values.imageUrl;
     if (files.length > 0) {
       const uploadedImages = await startUpload(files);
+
       if (!uploadedImages) {
         return;
       }
@@ -83,12 +84,11 @@ export default function EventForm({ userId, type }: EventFormProps) {
     if (type === "Create") {
       try {
         const newEvent = await createEvent({
-          data: { ...values },
+          data: { ...values, imageUrl: uploadedImageUrl },
           categoryId: values.categoryId,
-          organizerId: userId,
+          userId,
         });
 
-        console.log(newEvent);
         if (newEvent) {
           form.reset();
           router.push(`/events/${newEvent._id}`);
@@ -176,8 +176,8 @@ export default function EventForm({ userId, type }: EventFormProps) {
           />
 
           <FormField
-            name="imageUrl"
             control={form.control}
+            name="imageUrl"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -198,7 +198,7 @@ export default function EventForm({ userId, type }: EventFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="relative flex items-center  ">
+                  <div className="relative flex items-center *:text-muted-foreground  ">
                     <Input
                       placeholder={"Event location"}
                       className="input-field relative px-8"
@@ -209,7 +209,7 @@ export default function EventForm({ userId, type }: EventFormProps) {
                       viewBox={svgs.ubication.viewBox}
                       height={18}
                       width={18}
-                      className="absolute ml-2 pointer-events-none fill-gray-400"
+                      className="absolute ml-2 pointer-events-none"
                     />
                   </div>
                 </FormControl>
@@ -245,7 +245,7 @@ export default function EventForm({ userId, type }: EventFormProps) {
                           viewBox={svgs.ubication.viewBox}
                           height={18}
                           width={18}
-                          className="absolute ml-2 pointer-events-none fill-gray-400"
+                          className="absolute ml-2 pointer-events-none"
                         />
                       </div>
                     </div>
@@ -366,7 +366,7 @@ export default function EventForm({ userId, type }: EventFormProps) {
             type="submit"
             size="lg"
             disabled={form.formState.isSubmitting}
-            className=" w-full bg-blue-600 hover:bg-blue-800"
+            className=" w-full bg-blue-600 hover:bg-blue-800 text-card-foreground"
           >
             {form.formState.isSubmitting ? "Submitting..." : `Create Event `}
           </Button>

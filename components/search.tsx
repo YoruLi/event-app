@@ -1,14 +1,33 @@
+"use client";
 import React from "react";
 import { Input } from "./ui/input";
 import { Svg } from "./ui/svg";
 import { svgs } from "@/data/svgs";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Search({ placeholder }: { placeholder: string }) {
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const handleSearch = React.useCallback(
+    (term: string) => {
+      const newSearchParams = new URLSearchParams(searchParams);
+      if (term) newSearchParams.set("query", term);
+      else newSearchParams.delete("query");
+
+      replace(`${pathname}?${newSearchParams.toString()}`);
+    },
+    [searchParams, pathname, replace]
+  );
+
   return (
-    <div className="relative flex items-center  ">
+    <div className="relative flex items-center ">
       <Input
         placeholder={placeholder}
-        className="relative border-0 bg-gray-200 rounded-full px-10 outline-offset-0 focus:bg-gray-300/80 transition-colors placeholder:text-grey-500 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+        onChange={(e) => {
+          handleSearch(e.target.value);
+        }}
+        className="input-field relative px-10 bg-input hover:bg-input-hover"
       />
       <Svg
         path={svgs.search.path}

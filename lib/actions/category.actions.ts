@@ -20,3 +20,7 @@ export const getAllCategories = async () => {
     return JSON.parse(JSON.stringify(categories));
   });
 };
+
+export const getCategoryByName = async (name: string) => {
+  return Category.findOne({ name: { $regex: name, $options: "i" } });
+};

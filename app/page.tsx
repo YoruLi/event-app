@@ -74,7 +74,7 @@ export default function Home() {
           </SignedOut>
 
           <SignedIn>
-            <Button className="bg-violet-600 hover:bg-violet-800 border-violet-600 hover:border-violet-500 border *:size-full *:text-violet-100">
+            <Button className="bg-violet-600 hover:bg-violet-800 hover:border-violet-500 *:size-full *:text-violet-100">
               <Link href={"/home"}>Go Home</Link>
             </Button>
           </SignedIn>

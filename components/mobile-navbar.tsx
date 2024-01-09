@@ -50,7 +50,7 @@ export default function MobileNavbar() {
     <>
       <nav
         ref={navRef}
-        className=" fixed flex justify-evenly bg-white  items-center  bottom-4 left-0 right-0 rounded-full max-w-sm  py-1 mx-auto w-full animate-fade-up !animate-delay-[2000ms] animate-once "
+        className=" fixed flex justify-evenly bg-background/30 border border-border  backdrop-blur-md  items-center  z-40 bottom-4 left-0 right-0 rounded-full max-w-sm  py-1 mx-auto w-full animate-fade-up !animate-delay-[2000ms] animate-once "
         style={{
           boxShadow: "0 0 4px rgba(0, 0, 0, 0.2 )",
         }}
@@ -73,7 +73,7 @@ export default function MobileNavbar() {
 
               {hoveredRect && navRect && (
                 <motion.div
-                  className="absolute top-0 left-0 rounded-md bg-zinc-200 dark:bg-zinc-800 -z-20 "
+                  className="absolute top-0 left-0 rounded-md bg-muted -z-20 "
                   initial={{
                     x: hoveredRect.left - navRect.left,
                     y: hoveredRect.top - navRect.top,

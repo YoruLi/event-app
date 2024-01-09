@@ -15,9 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header />
-      <main className="min-h-[calc(100dvh-56px)] w-full  bg-contain py-5 md:py-10 px-4">
-        {children}
-      </main>
+      <main className=" w-full bg-contain py-5 md:py-10 px-4">{children}</main>
       <MobileNavbar />
     </>
   );

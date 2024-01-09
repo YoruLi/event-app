@@ -5,6 +5,7 @@ import { connectToDatabase } from "../database/conn";
 import { Event } from "../database/models/event.model";
 import User from "../database/models/user.model";
 import { executeSafely } from "../utils";
+import Order from "../database/models/order.model";
 
 type IUser = {
   clerkId: string;
@@ -47,6 +48,10 @@ export const deleteUser = async (clerkId: string) => {
     const userToDelete = await User.findOne({ clerkId });
 
     if (!userToDelete) throw new Error("User not found");
+
+    Event.deleteMany({ _id: { $in: userToDelete.eventId } });
+
+    Order.updateMany({ _id: { $in: userToDelete.orders } }, { $set: { buyer: null } });
 
     const deleteUser = await User.findByIdAndDelete(userToDelete._id);
     revalidatePath("/");

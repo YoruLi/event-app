@@ -94,15 +94,15 @@ export default function Dropwdown({
           </Button>
         </PopoverTrigger>
         <PopoverContent className=" p-0">
-          <Command>
+          <Command className="bg-background">
             <CommandInput placeholder="Search ..." />
             <CommandEmpty>
               Not Category found
               <AlertDialog>
-                <AlertDialogTrigger className=" flex justify-center bg-blue-400  rounded py-1 px-2 w-20 text-sm my-1 mx-auto text-white  *:fill-white">
+                <AlertDialogTrigger className=" flex justify-center bg-blue-400  rounded py-1 px-2 w-20 text-sm my-1 mx-auto text-muted ">
                   Add
                 </AlertDialogTrigger>
-                <AlertDialogContent className="bg-white rounded">
+                <AlertDialogContent className="rounded ">
                   <AlertDialogHeader>
                     <AlertDialogTitle>New Category</AlertDialogTitle>
                     <AlertDialogDescription>
@@ -118,7 +118,7 @@ export default function Dropwdown({
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
                       onClick={() => startTransition(handleAddCategory)}
-                      className="bg-blue-600 hover:bg-blue-800"
+                      className="bg-blue-600 hover:bg-blue-800 text-white"
                     >
                       Save
                     </AlertDialogAction>
@@ -126,7 +126,7 @@ export default function Dropwdown({
                 </AlertDialogContent>
               </AlertDialog>
             </CommandEmpty>
-            <CommandGroup className=" w-full h-full max-h-64  overflow-auto  ">
+            <CommandGroup className=" w-full h-full max-h-64  overflow-auto bg-background  ">
               {categories.map((option) => (
                 <CommandItem
                   key={option._id}

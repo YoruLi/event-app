@@ -10,8 +10,9 @@ export interface IEventSchema extends Document {
   location?: string;
   imageUrl: string;
   price?: string;
-  category: { _id: string; name: string };
-  organizer: { _id: string; firstName: string; lastName: string };
+  isFree: boolean;
+  category: [{ _id: string; name: string }];
+  organizer: { _id: string; firstName: string; lastName: string; photo: string; username: string };
   url?: string;
 }
 

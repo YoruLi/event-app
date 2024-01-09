@@ -15,7 +15,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${inter.className} `}>{children}</body>
+        <body
+          className={`${inter.className} min-h-dvh  w-full  overflow-hidden scrollbar [overflow-y:overlay] [scrollbar-width:none]  `}
+        >
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );

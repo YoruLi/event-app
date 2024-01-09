@@ -15,7 +15,7 @@ const Svg: FC<SVGAttributes<SVGSVGElement>> = ({
       width={width ?? "24"}
       height={height ?? "24"}
       viewBox={viewBox || "0 0 24 24"}
-      className={cn("", className)}
+      className={cn("fill-current", className)}
       {...rest}
     >
       <path d={path}></path>
