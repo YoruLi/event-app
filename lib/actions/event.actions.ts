@@ -51,7 +51,7 @@ export const getAllEvents = async ({
   category: string;
   query: string;
   pages: number;
-}) => {
+}): Promise<{ data: IEventSchema[]; totalPages: number }> => {
   return await executeSafely(async () => {
     await connectToDatabase();
     const searchQuery = query ? { name: { $regex: query, $options: "i" } } : {};
