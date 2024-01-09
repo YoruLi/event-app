@@ -19,9 +19,6 @@ export default async function EventsRelated({
     limit: 3,
   });
 
-  const delay = async (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  await delay(3000);
   return (
     <>
       {data.length > 0 ? (
