@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import stripe from "stripe";
 
-async function POST(req: Request) {
+export async function POST(req: Request) {
   const body = await req.text();
   const stripeSignature = req.headers.get("stripe-signature") as string;
 
@@ -19,7 +19,13 @@ async function POST(req: Request) {
   if (event.type === "checkout.session.completed") {
     const { id, amount_total, metadata } = event.data.object;
 
-    const order = {};
+    const order = {
+      stripeId: id,
+      eventId: metadata?.eventId ?? "",
+      buyerId: metadata?.buyerId ?? "",
+      totalAmount: amount_total,
+      createdAt: Date.now(),
+    };
 
     // TODO create order
   }

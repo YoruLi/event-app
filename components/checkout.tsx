@@ -1,7 +1,7 @@
 import React from "react";
 import CheckOutButton from "./checkout-button";
 import { IEventSchema } from "@/lib/database/models/event.model";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
@@ -22,7 +22,7 @@ export default function CheckOut({ event }: { event: IEventSchema }) {
             </Button>
           </SignedOut>
           <SignedIn>
-            <CheckOutButton />
+            <CheckOutButton event={event} />
           </SignedIn>
         </>
       )}
