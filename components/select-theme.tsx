@@ -13,15 +13,13 @@ export default function SelectTheme() {
     <>
       <Select onValueChange={(value) => setTheme(value)} defaultValue={theme as string}>
         <SelectTrigger className="w-auto rounded-full border-none">
-          <SelectValue>
-            <Svg path={svgs[theme].path} className="size-5" />
-          </SelectValue>
+          <Svg path={(svgs as any)[theme!].path} className="size-5" />
         </SelectTrigger>
         <SelectContent className="bg-background">
           {THEMES.map((theme, index) => (
             <SelectItem key={index} value={theme}>
               <div className="flex gap-2 *:size-4">
-                <Svg path={svgs[theme].path} />
+                <Svg path={(svgs as any)[theme!].path} className="size-5" />
                 {theme}
               </div>
             </SelectItem>
