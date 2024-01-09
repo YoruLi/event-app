@@ -28,7 +28,7 @@ export default function CheckOutButton({ event }: { event: IEventSchema }) {
   };
   return (
     <form action={checkoutOrder} method="POST">
-      <Button variant={"link"} className="text-xs rounded-full">
+      <Button variant={"outline"} className="text-base rounded-full ">
         Buy Ticket
       </Button>
     </form>

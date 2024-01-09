@@ -21,15 +21,16 @@ export default async function page({ params: { id } }: { params: { id: string } 
     <>
       <section className="flex justify-center bg-contain">
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-7xl ">
-          <div className="relative">
+          <div className="relative animate-fade-right  animate-ease-in-out animate-duration-[2000ms]">
             <Image
               src={event.imageUrl}
               alt="hero image"
               width={1000}
               height={1000}
-              className="max-h-[500px] object-fill object-center relative rounded-2xl  "
+              className="max-h-[480px] object-cover object-center relative rounded-2xl"
             />
-            <div className="absolute bottom-0 top-0 z-10 h-full w-full bg-gradient-to-b from-transparent rounded-2xl from-40% via-[#151836]/80 to-[#151836] pointer-events-none" />
+            <div className="absolute bottom-0 top-0 z-10 h-full w-full  border bg-gradient-to-b from-transparent rounded-2xl from-40% via-background/80 to-background pointer-events-none" />
+
             <CheckOut event={event} />
           </div>
 

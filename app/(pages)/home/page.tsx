@@ -1,8 +1,10 @@
 import EventsCollection from "@/components/events-collection";
 import Search from "@/components/search";
 import SelecCategory from "@/components/select-category";
-import { getAllEvents } from "@/lib/actions/event.actions";
+import Loading from "@/components/ui/loader-image";
+
 import React from "react";
+
 type SearchParamProps = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
@@ -11,11 +13,6 @@ export default async function HomePage({ searchParams }: SearchParamProps) {
 
   const pages = Number(searchParams?.pages) || 1;
   const category = (searchParams?.category as string) || "";
-  const events = await getAllEvents({
-    query: q,
-    category,
-    pages,
-  });
 
   return (
     <div>
@@ -25,7 +22,9 @@ export default async function HomePage({ searchParams }: SearchParamProps) {
       </section>
 
       <section id="events" className=" my-8 flex flex-col gap-8 md:gap-12">
-        <EventsCollection events={events?.data} pages={pages} totalPages={events.totalPages} />
+        <React.Suspense key={category} fallback={<Loading />}>
+          <EventsCollection pages={pages} query={q} category={category} />
+        </React.Suspense>
       </section>
     </div>
   );

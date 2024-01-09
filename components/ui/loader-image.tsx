@@ -1,0 +1,25 @@
+import React from "react";
+
+export default function Loading() {
+  return (
+    <>
+      <ul
+        className="grid gap-3 w-full"
+        style={{
+          gridTemplateColumns: "repeat(auto-fill, minmax(280px,1fr))",
+        }}
+      >
+        {[...Array(10).keys()].map((i) => (
+          <li key={i}>
+            <div
+              className="size-[280px] rounded-xl bg-muted animate-fade animate-delay-700"
+              style={{
+                animationDelay: `${200 * i}ms`,
+              }}
+            />
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}

@@ -2,16 +2,25 @@ import { IEventSchema } from "@/lib/database/models/event.model";
 import React from "react";
 import EventCard from "./event-card";
 import Pagination from "./pagination";
+import { getAllEvents } from "@/lib/actions/event.actions";
 
-export default function EventsCollection({
-  events,
+export default async function EventsCollection({
+  category,
+  query,
   pages,
-  totalPages,
 }: {
-  events: IEventSchema[];
+  category: any;
+  query: string;
   pages: number;
-  totalPages: number;
 }) {
+  const { data: events, totalPages } = await getAllEvents({
+    query,
+    category,
+    pages,
+  });
+  const delay = async (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  await delay(2000);
   return (
     <>
       {events.length > 0 ? (
@@ -22,8 +31,14 @@ export default function EventsCollection({
               gridTemplateColumns: "repeat(auto-fill, minmax(280px,1fr))",
             }}
           >
-            {events.map((event) => (
-              <li key={event._id}>
+            {events.map((event, index) => (
+              <li
+                key={event._id}
+                className={`animate-fade animate-delay-700`}
+                style={{
+                  animationDelay: `${200 * index}ms`,
+                }}
+              >
                 <EventCard event={event} />
               </li>
             ))}

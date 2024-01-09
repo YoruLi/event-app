@@ -15,12 +15,12 @@ export default function EventCard({ event }: { event: IEventSchema }) {
           style={{
             backgroundImage: `url(${event.imageUrl})`,
           }}
-          className="transition-scale absolute inset-0
+          className="transition-scale absolute inset-0 
        h-full w-full  z-0 
         bg-cover bg-center bg-no-repeat opacity-90 bg-blend-luminosity duration-1000 ease-in-out group-hover:scale-110"
         />
 
-        <Badge className="absolute right-4 top-4 bg-transparent backdrop-blur-md shadow-inner text-card-foreground shadow-black/30 border-white font-bold border cursor-pointer hover:bg-transparent">
+        <Badge className="absolute right-4 top-4 backdrop-blur-md shadow-inner text-card-foreground shadow-black/30 border-white font-bold border cursor-pointer bg-transparent">
           {event.isFree ? "Free" : `$${event.price}`}
         </Badge>
 

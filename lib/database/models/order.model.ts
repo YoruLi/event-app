@@ -3,7 +3,7 @@ import { Schema, SchemaDefinition, model, models } from "mongoose";
 const OrderSchema = new Schema<SchemaDefinition>({
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   stripeId: {
     type: String,
