@@ -170,7 +170,16 @@
     @apply relative border border-border outline-offset-0 focus:bg-input-hover transition-colors  focus-visible:ring-0 focus-visible:ring-offset-0 !important;
   }
 }
+#google {
+  @apply border border-muted text-primary;
+}
 
+.cl-internal-1b63r8w {
+  @apply !text-primary;
+}
+.cl-internal-835v9r p {
+  @apply !text-primary;
+}
 textarea {
   resize: none;
 }

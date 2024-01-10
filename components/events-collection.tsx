@@ -2,23 +2,16 @@ import { IEventSchema } from "@/lib/database/models/event.model";
 import React from "react";
 import EventCard from "./event-card";
 import Pagination from "./pagination";
-import { getAllEvents } from "@/lib/actions/event.actions";
 
 export default async function EventsCollection({
-  category,
-  query,
+  data: events,
   pages,
+  totalPages,
 }: {
-  category: any;
-  query: string;
   pages: number;
+  data: IEventSchema[];
+  totalPages: number;
 }) {
-  const { data: events, totalPages } = await getAllEvents({
-    query,
-    category,
-    pages,
-  });
-
   return (
     <>
       {events.length > 0 ? (

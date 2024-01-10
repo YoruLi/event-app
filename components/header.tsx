@@ -15,7 +15,7 @@ export default function Header() {
         DE
       </Link>
 
-      <div className="*:animate-fade *:animate-delay-300 *animate-once flex">
+      <div className="*:animate-fade *:animate-delay-300 *animate-once flex items-center">
         <SelectTheme />
         <SignedIn>
           <UserButton afterSignOutUrl="/" />

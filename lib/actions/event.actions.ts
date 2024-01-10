@@ -113,3 +113,25 @@ export const getEventsByCategory = async ({
     return { data: JSON.parse(JSON.stringify(events)) };
   });
 };
+
+export const getEventByUser = async ({
+  organizer,
+  pages,
+}: {
+  organizer: string;
+  pages: number;
+}) => {
+  return await executeSafely(async () => {
+    await connectToDatabase();
+    const offset = (pages - 1) * 10;
+    const eventsByUser = await populateEvent(
+      Event.find({ organizer: organizer }).sort({ createdAt: "desc" }).skip(offset).limit(10)
+    );
+    const totalPages = await Event.countDocuments({ organizer: organizer });
+
+    return {
+      data: JSON.parse(JSON.stringify(eventsByUser)),
+      totalPages: Math.ceil(totalPages / 10),
+    };
+  });
+};

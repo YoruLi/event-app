@@ -12,7 +12,7 @@ export default function Loading() {
         {[...Array(10).keys()].map((i) => (
           <li key={i}>
             <div
-              className="size-[280px] rounded-xl bg-muted animate-fade animate-delay-700"
+              className="h-[280px] w-full mx-auto rounded-xl bg-muted animate-fade animate-delay-700"
               style={{
                 animationDelay: `${200 * i}ms`,
               }}

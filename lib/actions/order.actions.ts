@@ -4,6 +4,8 @@ import Order from "../database/models/order.model";
 import { executeSafely } from "../utils";
 import { redirect } from "next/navigation";
 import { connectToDatabase } from "../database/conn";
+import User from "../database/models/user.model";
+import { Event, IEventSchema } from "../database/models/event.model";
 
 interface createOrderSchema {
   stripeId: string;
@@ -63,5 +65,51 @@ export const createOrder = async (order: createOrderSchema) => {
     });
 
     return JSON.parse(JSON.stringify(newOrder));
+  });
+};
+
+interface OrderType {
+  _id: string;
+  createdAt: string;
+  stripeId: string;
+  totalAmount: string;
+  eventId: {
+    _id: string;
+    name: string;
+    description: string;
+    start: string;
+    end: string;
+    location: string;
+    imageUrl: string;
+    price: string;
+    isFree: boolean;
+    category: string[];
+    organizer: {
+      _id: string;
+      username: string;
+      photo: string;
+    };
+    url: string;
+    createdAt: string;
+  };
+  buyerId: string;
+}
+export const getTicketsUser = async ({ userId }: { userId: string }): Promise<OrderType[]> => {
+  return await executeSafely(async () => {
+    await connectToDatabase();
+
+    const tickets = await Order.find({ buyerId: userId })
+      .sort({ createdAt: "desc" })
+      .populate({
+        path: "eventId",
+        model: Event,
+        populate: {
+          path: "organizer",
+          model: User,
+          select: "username photo",
+        },
+      });
+
+    return JSON.parse(JSON.stringify(tickets));
   });
 };
