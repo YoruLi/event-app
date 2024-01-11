@@ -72,6 +72,7 @@ export const getTicketsUser = async ({
       .populate({
         path: "eventId",
         model: Event,
+        select: "imageUrl",
         populate: {
           path: "organizer",
           model: User,
@@ -106,7 +107,7 @@ export const getEventOrderInfo = async ({
       },
       {
         $sort: {
-          createdAt: -1, // Sorting in descending order
+          createdAt: -1,
         },
       },
       {

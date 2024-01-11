@@ -39,15 +39,7 @@ interface OrderType {
   totalAmount: string;
   eventId: {
     _id: string;
-    name: string;
-    description: string;
-    start: string;
-    end: string;
-    location: string;
     imageUrl: string;
-    price: string;
-    isFree: boolean;
-    category: string[];
     organizer: {
       _id: string;
       username: string;

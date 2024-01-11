@@ -2,7 +2,8 @@
 
 import React, { MouseEvent } from "react";
 import Image from "next/image";
-import { OrderType } from "@/lib/actions/order.actions";
+import { OrderType } from "@/lib/types";
+
 export default function Ticket({ event }: { event: OrderType }) {
   const ticket = React.useRef<HTMLDivElement | null>(null);
 
