@@ -25,3 +25,5 @@ export const NAV_LINKS: NavLink[] = [
     icon: "profile",
   },
 ];
+
+export const LIMIT = 10;

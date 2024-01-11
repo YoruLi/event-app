@@ -8,6 +8,7 @@ import User from "../database/models/user.model";
 import { Event } from "../database/models/event.model";
 import mongoose from "mongoose";
 import { CheckoutOrderParams, EventOrderInfoProps, OrderType, createOrderSchema } from "../types";
+import { LIMIT } from "@/constants";
 
 export const checkOutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(
@@ -64,11 +65,11 @@ export const getTicketsUser = async ({
 }): Promise<{ data: OrderType[]; totalPages: number }> => {
   return await executeSafely(async () => {
     await connectToDatabase();
-    const offset = Number(pages - 1) * 10;
+    const offset = Number(pages - 1) * LIMIT;
     const tickets = await Order.find({ buyerId: userId })
       .sort({ createdAt: "desc" })
       .skip(offset)
-      .limit(10)
+      .limit(LIMIT)
       .populate({
         path: "eventId",
         model: Event,
@@ -83,22 +84,22 @@ export const getTicketsUser = async ({
     const totalPages = await Order.distinct("eventId._id").countDocuments({ buyerId: userId });
     return {
       data: JSON.parse(JSON.stringify(tickets)),
-      totalPages: Math.ceil(totalPages / 10),
+      totalPages: Math.ceil(totalPages / LIMIT),
     };
   });
 };
 
 export const getEventOrderInfo = async ({
   eventId,
+  pages,
 }: {
   eventId: string;
-}): Promise<EventOrderInfoProps[]> => {
+  pages: number;
+}): Promise<{ data: EventOrderInfoProps[]; totalPages: number }> => {
   return await executeSafely(async () => {
     await connectToDatabase();
-    if (!eventId) {
-      return;
-    }
 
+    const offset = Number(pages - 1) * LIMIT;
     const ordersInfo = await Order.aggregate([
       {
         $match: {
@@ -142,8 +143,20 @@ export const getEventOrderInfo = async ({
           buyer: "$buyer.username",
         },
       },
-    ]);
+    ])
+      .sort({
+        createdAt: "desc",
+      })
+      .skip(offset)
+      .limit(LIMIT);
 
-    return JSON.parse(JSON.stringify(ordersInfo));
+    const totalPages = await Order.countDocuments({
+      eventId: new mongoose.Types.ObjectId(eventId),
+    });
+
+    return {
+      data: JSON.parse(JSON.stringify(ordersInfo)),
+      totalPages: Math.ceil(totalPages / LIMIT),
+    };
   });
 };

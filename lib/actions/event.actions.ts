@@ -7,6 +7,7 @@ import Category from "../database/models/category.model";
 import User from "../database/models/user.model";
 import { getCategoryByName } from "./category.actions";
 import { EventQuery } from "../types";
+import { LIMIT } from "@/constants";
 
 export const createEvent = async ({
   data,
@@ -55,13 +56,13 @@ export const getAllEvents = async ({
     await connectToDatabase();
     const searchQuery = query ? { name: { $regex: query, $options: "i" } } : {};
     const categoryByName = category ? await getCategoryByName(category) : null;
-    const offset = (pages - 1) * 10;
+    const offset = (pages - 1) * LIMIT;
     const eventsQuery = Event.find({
       $and: [searchQuery, categoryByName ? { category: categoryByName._id } : {}],
     })
       .sort({ createdAt: "desc" })
       .skip(offset)
-      .limit(10);
+      .limit(LIMIT);
 
     const events = await populateEvent(eventsQuery);
     const totalPages = await Event.countDocuments({
@@ -70,7 +71,7 @@ export const getAllEvents = async ({
 
     return {
       data: JSON.parse(JSON.stringify(events)),
-      totalPages: Math.ceil(totalPages / 10),
+      totalPages: Math.ceil(totalPages / LIMIT),
     };
   });
 };
@@ -122,7 +123,7 @@ export const getEventByUser = async ({
 }) => {
   return await executeSafely(async () => {
     await connectToDatabase();
-    const offset = (pages - 1) * 10;
+    const offset = (pages - 1) * LIMIT;
     const eventsByUser = await populateEvent(
       Event.find({ organizer: organizer }).sort({ createdAt: "desc" }).skip(offset).limit(10)
     );
@@ -130,7 +131,7 @@ export const getEventByUser = async ({
 
     return {
       data: JSON.parse(JSON.stringify(eventsByUser)),
-      totalPages: Math.ceil(totalPages / 10),
+      totalPages: Math.ceil(totalPages / LIMIT),
     };
   });
 };
