@@ -1,4 +1,3 @@
-import { IEventSchema } from "@/lib/database/models/event.model";
 import React from "react";
 import EventCard from "./event-card";
 import Pagination from "./pagination";
@@ -37,7 +36,7 @@ export default async function EventsRelated({
                   animationDelay: `${200 * index}ms`,
                 }}
               >
-                <EventCard event={event} />
+                <EventCard event={event} detailsButton={false} />
               </li>
             ))}
           </ul>
