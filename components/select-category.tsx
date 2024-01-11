@@ -34,13 +34,13 @@ export default function SelecCategory() {
   return (
     <>
       <Select onValueChange={(value) => handleSelectCategory(value)}>
-        <SelectTrigger className="max-w-32">
+        <SelectTrigger className="max-w-32 ">
           <SelectValue placeholder="Category..." />
         </SelectTrigger>
         <SelectContent className="bg-background">
           <SelectItem value="ALL">All</SelectItem>
           {categories.map((category) => (
-            <SelectItem key={category._id} value={category.name}>
+            <SelectItem key={category._id} value={category.name} className="z-[100]">
               {category.name}
             </SelectItem>
           ))}

@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import React, { MouseEvent } from "react";
-
-export default function Ticket({ event }: { event: any }) {
+import Image from "next/image";
+import { OrderType } from "@/lib/actions/order.actions";
+export default function Ticket({ event }: { event: OrderType }) {
   const ticket = React.useRef<HTMLDivElement | null>(null);
 
   const handleMoveTicker = (e: MouseEvent) => {
@@ -18,6 +18,7 @@ export default function Ticket({ event }: { event: any }) {
       const skewX = ((offsetX - halfX) / halfX) * 15;
       const skewY = ((offsetY - halfY) / halfY) * 15;
       tickerRef.style.transform = `rotateX(${skewX}deg) rotateY(${skewY}deg)`;
+      tickerRef.style.scale = "1.05";
     }
   };
 
@@ -25,6 +26,7 @@ export default function Ticket({ event }: { event: any }) {
     const tickerRef = ticket.current;
     if (tickerRef) {
       tickerRef.style.transform = `rotateX(${0}deg) rotateY(${0}deg)`;
+      tickerRef.style.scale = "1";
     }
   };
 
@@ -34,7 +36,7 @@ export default function Ticket({ event }: { event: any }) {
       onMouseMove={(e) => handleMoveTicker(e)}
       onMouseLeave={() => handleLeave()}
       key={event._id}
-      className="relative flex justify-between rounded-lg w-[24rem] h-40  shadow-lg bg-contain border-2 border-border transition-all "
+      className="relative flex mx-auto justify-between rounded-lg max-w-[24rem] h-40 shadow-lg bg-contain border-2 border-border transition-all "
     >
       <p className="bg-transparent bg-gradient-to-r px-2 font-paytone text-transparent from-violet-700 to-blue-700 bg-blend-multiply bg-clip-text font-bold text-2xl">
         Daily Events

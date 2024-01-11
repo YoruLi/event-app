@@ -6,6 +6,7 @@ import { connectToDatabase } from "../database/conn";
 import Category from "../database/models/category.model";
 import User from "../database/models/user.model";
 import { getCategoryByName } from "./category.actions";
+import { EventQuery } from "../types";
 
 export const createEvent = async ({
   data,
@@ -26,8 +27,6 @@ export const createEvent = async ({
     return JSON.parse(JSON.stringify(newEvent));
   });
 };
-
-type EventQuery = ReturnType<typeof Event.findOne>;
 
 const populateEvent = async (query: EventQuery) => {
   return query

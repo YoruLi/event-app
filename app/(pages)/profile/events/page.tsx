@@ -15,7 +15,7 @@ export default async function EventsProfilePage({ params }: { params: { pages: s
     <section>
       <h3 className="m-2 -tracking-tight text-center lg:text-start">Your events</h3>
       <React.Suspense fallback={<Loading />}>
-        <EventsCollection data={eventsUser} pages={1} totalPages={1} />
+        <EventsCollection data={eventsUser} pages={1} totalPages={1} userId={userId} />
       </React.Suspense>
     </section>
   );

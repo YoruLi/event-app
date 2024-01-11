@@ -6,22 +6,7 @@ import { Event } from "../database/models/event.model";
 import User from "../database/models/user.model";
 import { executeSafely } from "../utils";
 import Order from "../database/models/order.model";
-
-type IUser = {
-  clerkId: string;
-  email: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  photo: string;
-};
-
-export type UpdateUserParams = {
-  firstName: string;
-  lastName: string;
-  username: string;
-  photo: string;
-};
+import { IUser, UpdateUserParams } from "../types";
 
 export const createUser = async (user: IUser) => {
   return await executeSafely(async () => {

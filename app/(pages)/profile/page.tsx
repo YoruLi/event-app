@@ -23,14 +23,12 @@ export default function ProfilePage() {
               breadcrumbsItem: "text-primary",
               breadcrumbsItemDivider: "text-primary",
               formButtonPrimary: "text-primary bg-muted",
-              formButtonReset: "text-white bg-red-600 hover:bg-red-800",
+              formButtonReset: "text-white  hover:bg-red-800",
               profileSection__activeDevices: {
                 display: "none",
               },
               profileSectionContent__username: "*:text-primary *:text-lg *:first-letter:uppercase",
-              badge: {
-                color: "currentcolor",
-              },
+              badge: "text-primary bg-transparent border",
               navbar: "bg-background border-l border-border",
               formFieldLabelRow: "*:text-muted-foreground",
               profileSectionContent__danger: " w-full [&>*>*]:!text-white *:m-0 *:p-0 ",

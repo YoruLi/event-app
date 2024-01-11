@@ -5,23 +5,10 @@ import { executeSafely } from "../utils";
 import { redirect } from "next/navigation";
 import { connectToDatabase } from "../database/conn";
 import User from "../database/models/user.model";
-import { Event, IEventSchema } from "../database/models/event.model";
+import { Event } from "../database/models/event.model";
+import mongoose from "mongoose";
+import { CheckoutOrderParams, EventOrderInfoProps, OrderType, createOrderSchema } from "../types";
 
-interface createOrderSchema {
-  stripeId: string;
-  eventId: string;
-  buyerId: string;
-  totalAmount: string;
-  createdAt: number;
-}
-
-type CheckoutOrderParams = {
-  eventTitle: string;
-  eventId: string;
-  price: string;
-  isFree: boolean;
-  buyerId: string;
-};
 export const checkOutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(
     "sk_test_51NvBt3Btuy2P6uiYFeMZi3eW3SF0JhS6bQerZjGtSH2JSDYqaaAgF3ZOGiFn11bkNRa01ozeOq1ktcc2acI0gD2M00DIxVP8Mw"
@@ -68,38 +55,20 @@ export const createOrder = async (order: createOrderSchema) => {
   });
 };
 
-interface OrderType {
-  _id: string;
-  createdAt: string;
-  stripeId: string;
-  totalAmount: string;
-  eventId: {
-    _id: string;
-    name: string;
-    description: string;
-    start: string;
-    end: string;
-    location: string;
-    imageUrl: string;
-    price: string;
-    isFree: boolean;
-    category: string[];
-    organizer: {
-      _id: string;
-      username: string;
-      photo: string;
-    };
-    url: string;
-    createdAt: string;
-  };
-  buyerId: string;
-}
-export const getTicketsUser = async ({ userId }: { userId: string }): Promise<OrderType[]> => {
+export const getTicketsUser = async ({
+  userId,
+  pages,
+}: {
+  userId: string;
+  pages: number;
+}): Promise<{ data: OrderType[]; totalPages: number }> => {
   return await executeSafely(async () => {
     await connectToDatabase();
-
+    const offset = Number(pages - 1) * 10;
     const tickets = await Order.find({ buyerId: userId })
       .sort({ createdAt: "desc" })
+      .skip(offset)
+      .limit(10)
       .populate({
         path: "eventId",
         model: Event,
@@ -110,6 +79,70 @@ export const getTicketsUser = async ({ userId }: { userId: string }): Promise<Or
         },
       });
 
-    return JSON.parse(JSON.stringify(tickets));
+    const totalPages = await Order.distinct("eventId._id").countDocuments({ buyerId: userId });
+    return {
+      data: JSON.parse(JSON.stringify(tickets)),
+      totalPages: Math.ceil(totalPages / 10),
+    };
+  });
+};
+
+export const getEventOrderInfo = async ({
+  eventId,
+}: {
+  eventId: string;
+}): Promise<EventOrderInfoProps[]> => {
+  return await executeSafely(async () => {
+    await connectToDatabase();
+    if (!eventId) {
+      return;
+    }
+
+    const ordersInfo = await Order.aggregate([
+      {
+        $match: {
+          eventId: new mongoose.Types.ObjectId(eventId), // Convert eventId to ObjectId
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1, // Sorting in descending order
+        },
+      },
+      {
+        $lookup: {
+          from: "events",
+          localField: "eventId",
+          foreignField: "_id",
+          as: "event",
+        },
+      },
+      {
+        $unwind: "$event",
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "buyerId",
+          foreignField: "_id",
+          as: "buyer",
+        },
+      },
+      {
+        $unwind: "$buyer",
+      },
+      {
+        $project: {
+          _id: 1,
+          totalAmount: 1,
+          createdAt: 1,
+          eventTitle: "$event.name",
+          eventId: "$event._id",
+          buyer: "$buyer.username",
+        },
+      },
+    ]);
+
+    return JSON.parse(JSON.stringify(ordersInfo));
   });
 };

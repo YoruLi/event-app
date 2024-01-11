@@ -4,8 +4,15 @@ import React from "react";
 import { Badge } from "./ui/badge";
 import { formatDate } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
 
-export default function EventCard({ event }: { event: IEventSchema }) {
+export default function EventCard({
+  event,
+  detailsButton,
+}: {
+  event: IEventSchema;
+  detailsButton: boolean;
+}) {
   return (
     <>
       <article className="group relative mx-auto h-[280px] w-full rounded-2xl transition-all border border-black/10 backdrop-blur-md shadow-inner shadow-black/30 overflow-hidden  ">
@@ -16,10 +23,14 @@ export default function EventCard({ event }: { event: IEventSchema }) {
             backgroundImage: `url(${event.imageUrl})`,
           }}
           className="transition-scale absolute inset-0 
-       h-full w-full  z-0 
+       h-full w-full z-0 
         bg-cover bg-center bg-no-repeat opacity-90 bg-blend-luminosity duration-1000 ease-in-out group-hover:scale-110"
         />
-
+        {detailsButton ? (
+          <Button asChild className="absolute left-0 top-0" variant={"default"}>
+            <Link href={`/orders?eventId=${event._id}`}>Details</Link>
+          </Button>
+        ) : null}
         <Badge className="absolute right-4 top-4 backdrop-blur-md shadow-inner text-card-foreground hover:bg-transparent shadow-black/30 border-white font-bold border cursor-pointer bg-transparent">
           {event.isFree ? "Free" : `$${event.price}`}
         </Badge>

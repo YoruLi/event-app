@@ -7,10 +7,12 @@ export default async function EventsCollection({
   data: events,
   pages,
   totalPages,
+  userId,
 }: {
   pages: number;
   data: IEventSchema[];
   totalPages: number;
+  userId?: string;
 }) {
   return (
     <>
@@ -22,25 +24,30 @@ export default async function EventsCollection({
               gridTemplateColumns: "repeat(auto-fill, minmax(280px,1fr))",
             }}
           >
-            {events.map((event, index) => (
-              <li
-                key={event._id}
-                className={`animate-fade animate-delay-700`}
-                style={{
-                  animationDelay: `${200 * index}ms`,
-                }}
-              >
-                <EventCard event={event} />
-              </li>
-            ))}
+            {events.map((event, index) => {
+              const hide = event.organizer._id === userId;
+              return (
+                <li
+                  key={event._id}
+                  className={`animate-fade animate-delay-700`}
+                  style={{
+                    animationDelay: `${200 * index}ms`,
+                  }}
+                >
+                  <EventCard event={event} detailsButton={hide} />
+                </li>
+              );
+            })}
           </ul>
 
           <Pagination pages={pages} totalPages={totalPages} />
         </div>
       ) : (
-        <div className="flex min-h-[200px] w-full flex-col gap-3 rounded-[14px] border text-accent-foreground py-28 text-center">
+        <div className="flex w-full flex-col gap-3  text-accent-foreground py-28 text-center">
           <code>No Events Found</code>
-          <code>Come back later</code>
+          <h3 className="animate-fade animate-delay-300 text-5xl animate-once text-transparent italic font-paytone bg-transparent bg-gradient-to-r  from-violet-700 to-blue-700 bg-blend-multiply bg-clip-text">
+            DE
+          </h3>
         </div>
       )}
     </>
