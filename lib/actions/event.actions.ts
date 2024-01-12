@@ -8,6 +8,8 @@ import User from "../database/models/user.model";
 import { getCategoryByName } from "./category.actions";
 import { EventQuery } from "../types";
 import { LIMIT } from "@/constants";
+import { revalidatePath } from "next/cache";
+import { ModifyResult } from "mongoose";
 
 export const createEvent = async ({
   data,
@@ -133,5 +135,20 @@ export const getEventByUser = async ({
       data: JSON.parse(JSON.stringify(eventsByUser)),
       totalPages: Math.ceil(totalPages / LIMIT),
     };
+  });
+};
+
+export const deleteEventFn = async (eventId: string) => await Event.findByIdAndDelete(eventId);
+
+export const deleteAction = async (
+  eventId: string,
+  path: string,
+  deleteFn: (eventId: string) => Promise<ModifyResult<any>>
+) => {
+  return await executeSafely(async () => {
+    await connectToDatabase();
+    await deleteFn(eventId);
+
+    revalidatePath(path);
   });
 };

@@ -1,6 +1,5 @@
+import { Sidebar } from "@/components/sidebar";
 import { Metadata } from "next";
-
-import { Sidebar } from "./components/sidebar";
 
 export const metadata: Metadata = {
   title: "Music App",

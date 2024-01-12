@@ -5,6 +5,9 @@ import { Badge } from "./ui/badge";
 import { formatDate } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
+import { DeleteAction } from "./delete-action";
+import { Svg } from "./ui/svg";
+import { svgs } from "@/data/svgs";
 
 export default function EventCard({
   event,
@@ -31,9 +34,15 @@ export default function EventCard({
             <Link href={`/orders?eventId=${event._id}`}>Details</Link>
           </Button>
         ) : null}
-        <Badge className="absolute right-4 top-4 backdrop-blur-md shadow-inner text-card-foreground hover:bg-transparent shadow-black/30 border-white font-bold border cursor-pointer bg-transparent">
-          {event.isFree ? "Free" : `$${event.price}`}
-        </Badge>
+
+        {detailsButton && (
+          <div className="absolute right-2 top-2 text-muted">
+            <Link href={`/events/${event._id}/update`}>
+              <Svg path={svgs.edit.path} className="text-primary" />
+            </Link>
+            <DeleteAction id={event._id} />
+          </div>
+        )}
 
         <section className="size-full grid items-end p-4 *:z-10">
           <div className="flex flex-col text-white gap-1">
@@ -48,9 +57,14 @@ export default function EventCard({
                 <p className="text-sm">{event.organizer.username}</p>
               </div>
               <div>
-                <Badge className="self-end bg-transparent text-card-foreground border-white border cursor-pointer hover:bg-transparent backdrop-blur-md shadow-inner shadow-black/30">
-                  {event.category[0].name}
-                </Badge>
+                {event.category.slice(0, 2).map((category) => (
+                  <Badge
+                    key={category._id}
+                    className="self-end ml-2 bg-transparent text-card-foreground border-white border cursor-pointer hover:bg-transparent backdrop-blur-md shadow-inner shadow-black/30"
+                  >
+                    {category.name}
+                  </Badge>
+                ))}
               </div>
             </div>
           </div>

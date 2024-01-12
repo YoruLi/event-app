@@ -52,26 +52,30 @@ export default async function OrdersPage({
       </Table>
 
       <div className="block md:hidden mx-auto w-full space-y-3">
-        {orderInfo?.map((order) => (
-          <div key={order._id} className="border border-border p-4 rounded-lg *:text-start">
-            <div className="flex gap-2 justify-between *:text-ellipsis">
-              <p>{order._id}</p>
-              <Badge className="text-center" variant={"outline"}>
-                ${order.totalAmount}
-              </Badge>
+        {orderInfo.length > 0 ? (
+          orderInfo?.map((order) => (
+            <div key={order._id} className="border border-border p-4 rounded-lg *:text-start">
+              <div className="flex gap-2 justify-between *:text-ellipsis">
+                <p>{order._id}</p>
+                <Badge className="text-center" variant={"outline"}>
+                  ${order.totalAmount}
+                </Badge>
+              </div>
+              <p className="text-center">Event name: {order.eventTitle}</p>
+              <p className="text-center">
+                Bought by: <span className="font-bold"> {order.buyer}</span>
+              </p>
+              <p className="text-center text-xs pt-2">
+                {formatDate(new Date(order.createdAt))?.formattedDate}
+              </p>
             </div>
-            <p className="text-center">Event name: {order.eventTitle}</p>
-            <p className="text-center">
-              Bought by: <span className="font-bold"> {order.buyer}</span>
-            </p>
-            <p className="text-center text-xs pt-2">
-              {formatDate(new Date(order.createdAt))?.formattedDate}
-            </p>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-center my-4 w-full">No orders found</p>
+        )}
       </div>
 
-      <Pagination pages={pages} totalPages={totalPages} />
+      {totalPages > 1 ? <Pagination pages={pages} totalPages={totalPages} /> : null}
     </>
   );
 }

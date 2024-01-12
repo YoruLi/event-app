@@ -2,7 +2,7 @@ import EventsCollection from "@/components/events-collection";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import React from "react";
 
-export default async function EventsHome({
+export default async function GetAllEvents({
   query,
   category,
   pages,

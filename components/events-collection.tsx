@@ -40,7 +40,7 @@ export default async function EventsCollection({
             })}
           </ul>
 
-          <Pagination pages={pages} totalPages={totalPages} />
+          {totalPages > 1 ? <Pagination pages={pages} totalPages={totalPages} /> : null}
         </div>
       ) : (
         <div className="flex w-full flex-col gap-3  text-accent-foreground py-28 text-center">
