@@ -44,7 +44,9 @@ export default async function OrdersPage({
                 <TableCell className="text-center">${order.totalAmount}</TableCell>
                 <TableCell className="text-center">{order.eventTitle}</TableCell>
                 <TableCell className="text-center">{order.buyer}</TableCell>
-                <TableCell className="text-center">{order.createdAt}</TableCell>
+                <TableCell className="text-center">
+                  {formatDate(new Date(order.createdAt))?.formattedDate}
+                </TableCell>
               </>
             ))}
           </TableRow>
@@ -56,7 +58,9 @@ export default async function OrdersPage({
           orderInfo?.map((order) => (
             <div key={order._id} className="border border-border p-4 rounded-lg *:text-start">
               <div className="flex gap-2 justify-between *:text-ellipsis">
-                <p>{order._id}</p>
+                <p className="text-nowrap overflow-hidden text-ellipsis max-w-72">
+                  Order id:&nbsp;{order._id}
+                </p>
                 <Badge className="text-center" variant={"outline"}>
                   ${order.totalAmount}
                 </Badge>

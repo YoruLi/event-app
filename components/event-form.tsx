@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import Dropwdown from "./dropdown";
-import { createEvent } from "@/lib/actions/event.actions";
+import { createEvent, updateEventById } from "@/lib/actions/event.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
@@ -16,10 +16,13 @@ import { svgs } from "@/data/svgs";
 import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
 import { useUploadThing } from "@/lib/uploadthing";
+import { IEventSchema } from "@/lib/database/models/event.model";
 
 interface EventFormProps {
   userId: string;
   type: "Create" | "Update";
+  eventDefaultValuesProp?: IEventSchema;
+  eventId?: string;
 }
 
 const eventDefaultValues = {
@@ -33,7 +36,12 @@ const eventDefaultValues = {
   price: "",
   url: "",
 };
-export default function EventForm({ userId, type }: EventFormProps) {
+export default function EventForm({
+  userId,
+  type,
+  eventDefaultValuesProp,
+  eventId,
+}: EventFormProps) {
   const [description, setDescription] = React.useState("");
   const [files, setFiles] = React.useState<File[]>([]);
 
@@ -48,15 +56,27 @@ export default function EventForm({ userId, type }: EventFormProps) {
     location: z.string(),
     price: z.string().optional(),
     isFree: z.boolean(),
-    start: z.date(),
-    end: z.date(),
+    start: z.coerce
+      .date()
+      .refine((data) => data > new Date(), { message: "Start date must be in the future" }),
+    end: z.coerce
+      .date()
+      .refine((data) => data > new Date(), { message: "End date must be in the future" }),
     imageUrl: z.string(),
     url: z.string(),
   });
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
-    defaultValues: eventDefaultValues,
+    defaultValues:
+      type === "Update"
+        ? {
+            ...eventDefaultValuesProp,
+            start: new Date(eventDefaultValuesProp?.start!),
+            end: new Date(eventDefaultValuesProp?.end!),
+          }
+        : eventDefaultValues,
   });
+
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
   const resizeTextarea = (textarea: HTMLTextAreaElement | null) => {
     if (!textarea) return;
@@ -97,31 +117,33 @@ export default function EventForm({ userId, type }: EventFormProps) {
         console.log(error);
       }
     }
-    //  if (type === "Update") {
-    //    if (!eventId) {
-    //      router.back();
-    //      return;
-    //    }
-    //    try {
-    //      const updatedEvent = await updateEvent({
-    //        userId,
-    //        event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
-    //        path: `/events/${eventId}`,
-    //      });
-    //      if (updatedEvent) {
-    //        form.reset();
-    //        router.push(`/events/${updatedEvent._id}`);
-    //      }
-    //    } catch (error) {
-    //      console.log(error);
-    //    }
-    //  }
+    if (type === "Update") {
+      try {
+        if (!eventId) {
+          return;
+        }
+        const update = await updateEventById({
+          userId,
+          event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
+          path: `/profile/events`,
+        });
+        if (update) {
+          form.reset();
+          router.push(`/profile/events`);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 ">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-5 max-w-xl mx-auto "
+        >
           <FormField
             name="name"
             control={form.control}
@@ -312,10 +334,10 @@ export default function EventForm({ userId, type }: EventFormProps) {
                       render={({ field }) => (
                         <FormItem className="absolute ml-2 right-0">
                           <FormControl>
-                            <div className="flex items-center ">
+                            <div className="flex items-center relative ">
                               <label
                                 htmlFor="isFree"
-                                className="whitespace-nowrap pr-3 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-muted-foreground text-sm"
+                                className="  whitespace-nowrap pr-3 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-muted-foreground text-sm"
                               >
                                 Free
                               </label>
@@ -327,7 +349,7 @@ export default function EventForm({ userId, type }: EventFormProps) {
                               />
                             </div>
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="absolute bottom-0 pointer-events-none -left-20 my-auto z-0" />
                         </FormItem>
                       )}
                     />

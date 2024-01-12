@@ -138,6 +138,24 @@ export const getEventByUser = async ({
   });
 };
 
+export const updateEventById = async ({
+  event,
+  userId,
+  path,
+}: {
+  event: any;
+  userId: string;
+  path: string;
+}) => {
+  return await executeSafely(async () => {
+    await connectToDatabase();
+
+    const updatedEvent = await Event.findByIdAndUpdate(event._id, { ...event }, { new: true });
+    revalidatePath(path);
+    return JSON.parse(JSON.stringify(updatedEvent));
+  });
+};
+
 export const deleteEventFn = async (eventId: string) => await Event.findByIdAndDelete(eventId);
 
 export const deleteAction = async (
