@@ -3,6 +3,8 @@ import React from "react";
 import { Button } from "./ui/button";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Svg } from "./ui/svg";
+import { svgs } from "@/data/svgs";
 
 interface PaginationProps {
   pages: number;
@@ -20,7 +22,7 @@ export default function Pagination({ pages, totalPages }: PaginationProps) {
   }
 
   return (
-    <footer className="flex justify-between lg:justify-start gap-2">
+    <footer className="flex items-center gap-4 w-full justify-center mt-10">
       <Button
         variant={"outline"}
         onClick={() => {
@@ -29,8 +31,12 @@ export default function Pagination({ pages, totalPages }: PaginationProps) {
         disabled={Number(pages) <= 1}
         className="[&:not(:disabled)]:bg-blue-500  [&:not(:disabled)]:text-white "
       >
-        Previous
+        <Svg path={svgs.leftArrow.path} />
       </Button>
+
+      <span className="text-xs italic">
+        {pages} &nbsp;/&nbsp; {totalPages}
+      </span>
       <Button
         variant={"outline"}
         onClick={() => {
@@ -39,7 +45,7 @@ export default function Pagination({ pages, totalPages }: PaginationProps) {
         disabled={Number(pages) >= totalPages}
         className="[&:not(:disabled)]:bg-blue-500 [&:not(:disabled)]:text-white "
       >
-        Next
+        <Svg path={svgs.rightArrow.path} />
       </Button>
     </footer>
   );
