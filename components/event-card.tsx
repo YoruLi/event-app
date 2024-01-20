@@ -19,7 +19,7 @@ export default function EventCard({
 }) {
   return (
     <>
-      <article className="group relative mx-auto h-[280px] w-full rounded-lg transition border bg-primary/5 border-black/10 overflow-hidden">
+      <article className="group relative mx-auto h-[280px] !text-primary w-full rounded-lg transition border bg-primary/5 border-black/10 overflow-hidden">
         <div className="absolute bottom-0 top-0 z-10 h-full w-full bg-gradient-to-b from-transparent from-40% via-background/80 to-background pointer-events-none" />
         <Link
           href={`/events/${event._id}?category=${event.category[0]?._id}`}
@@ -47,7 +47,7 @@ export default function EventCard({
         )}
 
         <section className="size-full grid items-end p-4 *:z-10 ">
-          <div className="flex flex-col text-white gap-1">
+          <div className="flex flex-col gap-1">
             <time className="text-xs opacity-80">{formatDate(event.start)?.formattedDateTime}</time>
             <p className="first-letter:uppercase font-semibold">{event.name}</p>
             <div className="flex items-center justify-between">
@@ -62,7 +62,7 @@ export default function EventCard({
                 {event.category.slice(0, 2).map((category) => (
                   <Badge
                     key={category._id}
-                    className="self-end ml-2 bg-transparent text-card-foreground border-white border cursor-pointer hover:bg-transparent backdrop-blur-md shadow-inner shadow-black/30"
+                    className="self-end ml-2 bg-transparent text-primary border-white border cursor-pointer hover:bg-transparent backdrop-blur-md shadow-inner shadow-black/30"
                   >
                     {category.name}
                   </Badge>
