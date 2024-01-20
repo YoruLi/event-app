@@ -51,7 +51,7 @@ export default function Ticket({ event }: { event: OrderType }) {
       </div>
       <div className="relative">
         <Image
-          src={event.eventId.imageUrl}
+          src={event?.eventId?.imageUrl}
           alt="image"
           width={110}
           height={100}

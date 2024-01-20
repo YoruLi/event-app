@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${inter.className} min-h-dvh  w-full  overflow-hidden scrollbar [overflow-y:overlay] [scrollbar-width:none]  `}
+          className={`${inter.className} min-h-dvh w-full overflow-hidden scrollbar [overflow-y:overlay] [scrollbar-width:none]  `}
         >
           {children}
         </body>
