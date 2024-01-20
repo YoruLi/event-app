@@ -66,6 +66,7 @@ export const getTicketsUser = async ({
   return await executeSafely(async () => {
     await connectToDatabase();
     const offset = Number(pages - 1) * LIMIT;
+
     const tickets = await Order.find({ buyerId: userId })
       .sort({ createdAt: "desc" })
       .skip(offset)
@@ -103,7 +104,7 @@ export const getEventOrderInfo = async ({
     const ordersInfo = await Order.aggregate([
       {
         $match: {
-          eventId: new mongoose.Types.ObjectId(eventId), // Convert eventId to ObjectId
+          eventId: new mongoose.Types.ObjectId(eventId),
         },
       },
       {

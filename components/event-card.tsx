@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import { DeleteAction } from "./delete-action";
 import { Svg } from "./ui/svg";
 import { svgs } from "@/data/svgs";
+import Image from "next/image";
 
 export default function EventCard({
   event,
@@ -18,17 +19,18 @@ export default function EventCard({
 }) {
   return (
     <>
-      <article className="group relative mx-auto h-[280px] w-full rounded-2xl transition-all border border-black/10 backdrop-blur-md shadow-inner shadow-black/30 overflow-hidden  ">
-        <div className="absolute bottom-0 top-0 z-10 h-full w-full bg-gradient-to-b from-transparent rounded-2xl from-40% via-[#151836]/80 to-[#151836] pointer-events-none" />
+      <article className="group relative mx-auto h-[280px] w-full rounded-lg transition border bg-primary/5 border-black/10 overflow-hidden">
+        <div className="absolute bottom-0 top-0 z-10 h-full w-full bg-gradient-to-b from-transparent from-40% via-background/80 to-background pointer-events-none" />
         <Link
-          href={`/events/${event._id}`}
+          href={`/events/${event._id}?category=${event.category[0]?._id}`}
           style={{
             backgroundImage: `url(${event.imageUrl})`,
           }}
-          className="transition-scale absolute inset-0 
+          className="transition-scale absolute inset-0
        h-full w-full z-0 
         bg-cover bg-center bg-no-repeat opacity-90 bg-blend-luminosity duration-1000 ease-in-out group-hover:scale-110"
         />
+
         {detailsButton ? (
           <Button asChild className="absolute left-0 top-0" variant={"default"}>
             <Link href={`/orders?eventId=${event._id}`}>Details</Link>
@@ -44,7 +46,7 @@ export default function EventCard({
           </div>
         )}
 
-        <section className="size-full grid items-end p-4 *:z-10">
+        <section className="size-full grid items-end p-4 *:z-10 ">
           <div className="flex flex-col text-white gap-1">
             <time className="text-xs opacity-80">{formatDate(event.start)?.formattedDateTime}</time>
             <p className="first-letter:uppercase font-semibold">{event.name}</p>

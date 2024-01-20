@@ -1,5 +1,5 @@
 import EventsCollection from "@/components/events-collection";
-import Loading from "@/components/ui/loader-image";
+import Loading from "@/components/ui/loader-gallery";
 import { getEventByUser } from "@/lib/actions/event.actions";
 import { auth } from "@clerk/nextjs";
 import React from "react";

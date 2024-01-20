@@ -16,9 +16,11 @@ export default function Ticket({ event }: { event: OrderType }) {
 
       const offsetX = e.clientX - x;
       const offsetY = e.clientY - y;
-      const skewX = ((offsetX - halfX) / halfX) * 15;
-      const skewY = ((offsetY - halfY) / halfY) * 15;
+      const skewX = ((offsetX - halfX) / halfX) * 20;
+      const skewY = ((offsetY - halfY) / halfY) * 20;
+
       tickerRef.style.transform = `rotateX(${skewX}deg) rotateY(${skewY}deg)`;
+      tickerRef.style.transition = "none";
       tickerRef.style.scale = "1.05";
     }
   };
@@ -26,6 +28,7 @@ export default function Ticket({ event }: { event: OrderType }) {
   const handleLeave = () => {
     const tickerRef = ticket.current;
     if (tickerRef) {
+      tickerRef.style.transition = "transform 0.5s ease-in-out, scale 0.5s ease-in-out";
       tickerRef.style.transform = `rotateX(${0}deg) rotateY(${0}deg)`;
       tickerRef.style.scale = "1";
     }
@@ -37,31 +40,37 @@ export default function Ticket({ event }: { event: OrderType }) {
       onMouseMove={(e) => handleMoveTicker(e)}
       onMouseLeave={() => handleLeave()}
       key={event._id}
-      className="relative flex mx-auto justify-between rounded-lg max-w-[24rem] h-40 shadow-lg bg-contain border-2 border-border transition-all "
+      className="relative flex mx-auto justify-between bg-background rounded-lg max-w-[24rem] h-40 shadow-lg bg-contain border-2 border-border"
     >
-      <p className="bg-transparent bg-gradient-to-r px-2 font-paytone text-transparent from-violet-700 to-blue-700 bg-blend-multiply bg-clip-text font-bold text-2xl">
-        Daily Events
-      </p>
-
-      <div className="absolute left-0 bottom-0 px-3 py-2 z-10">
-        <p className="text-xs text-primary font-medium">
-          Organized by:&nbsp;
-          <span>{event?.eventId?.organizer?.username}</span>
-        </p>
-      </div>
-      <div className="relative">
-        <Image
-          src={event?.eventId?.imageUrl}
-          alt="image"
-          width={110}
-          height={100}
-          className="relative w-full h-full z-0 rounded-r-lg"
-        />
-      </div>
-
-      <div className="absolute inset-0 grid place-content-center animate-fade animate-delay-300 text-7xl animate-once text-transparent italic bg-transparent bg-gradient-to-r from-violet-700 from-45%  via-blue-600 font-paytone to-blue-600 bg-blend-multiply bg-clip-text">
-        DE
-      </div>
+      {event.eventId === null ? (
+        <div className=" grid w-full place-content-center rounded-lg bg-background text-red-600 font-semibold animate-pulse">
+          Ticket no available
+        </div>
+      ) : (
+        <>
+          <p className="bg-transparent bg-gradient-to-r px-2 font-paytone text-transparent from-violet-700 to-blue-700 bg-blend-multiply bg-clip-text font-bold text-2xl">
+            Daily Events
+          </p>
+          <div className="absolute left-0 bottom-0 px-3 py-2 z-10">
+            <p className="text-xs text-primary font-medium">
+              Organized by:&nbsp;
+              <span>{event?.eventId?.organizer?.username}</span>
+            </p>
+          </div>
+          <div className="relative">
+            <Image
+              src={event?.eventId?.imageUrl}
+              alt="image"
+              width={110}
+              height={100}
+              className="relative w-full h-full z-0 rounded-r-lg"
+            />
+          </div>
+          <div className="absolute inset-0 grid place-content-center animate-fade animate-delay-300 text-7xl animate-once text-transparent italic bg-transparent bg-gradient-to-r from-violet-700 from-45%  via-blue-600 font-paytone to-blue-600 bg-blend-multiply bg-clip-text">
+            DE
+          </div>
+        </>
+      )}
     </div>
   );
 }

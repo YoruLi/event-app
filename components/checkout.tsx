@@ -6,26 +6,18 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 
 export default function CheckOut({ event }: { event: IEventSchema }) {
-  const hasFinished = new Date(event.end) < new Date();
-
   return (
-    <div className="absolute right-2 bottom-2 z-20">
-      {hasFinished ? (
-        <p className="text-red-500 font-bold text-sm animate-pulse pointer-events-none">
-          Event has finished, the tickets are no longer available
-        </p>
-      ) : (
-        <>
-          <SignedOut>
-            <Button asChild variant={"link"} className="text-xs rounded-full">
-              <Link href={"/sign-in"}>Get Ticket</Link>
-            </Button>
-          </SignedOut>
-          <SignedIn>
-            <CheckOutButton event={event} />
-          </SignedIn>
-        </>
-      )}
-    </div>
+    <>
+      <div className="absolute right-2 bottom-2 z-20">
+        <SignedOut>
+          <Button asChild variant={"link"} className="text-xs rounded-full">
+            <Link href={"/sign-in"}>Get Ticket</Link>
+          </Button>
+        </SignedOut>
+        <SignedIn>
+          <CheckOutButton event={event} />
+        </SignedIn>
+      </div>
+    </>
   );
 }

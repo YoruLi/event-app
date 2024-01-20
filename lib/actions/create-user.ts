@@ -34,13 +34,13 @@ export const deleteUser = async (clerkId: string) => {
 
     if (!userToDelete) throw new Error("User not found");
 
-    Event.deleteMany({ _id: { $in: userToDelete.eventId } });
-
-    Order.updateMany({ _id: { $in: userToDelete.orders } }, { $set: { buyer: null } });
-
-    const deleteUser = await User.findByIdAndDelete(userToDelete._id);
+    Promise.all([
+      Event.deleteMany({ _id: { $in: userToDelete.eventId } }),
+      Order.updateMany({ _id: { $in: userToDelete.orders } }, { $set: { buyer: null } }),
+    ]);
+    const deletedUser = await User.findByIdAndDelete(userToDelete._id);
     revalidatePath("/");
 
-    return deleteUser ? JSON.parse(JSON.stringify(deleteUser)) : null;
+    return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
   });
 };

@@ -1,7 +1,7 @@
 import GetAllEvents from "@/components/get-all-events";
 import Search from "@/components/search";
 import SelecCategory from "@/components/select-category";
-import Loading from "@/components/ui/loader-image";
+import Loading from "@/components/ui/loader-gallery";
 
 import React from "react";
 

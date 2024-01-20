@@ -10,7 +10,7 @@ export default async function Tickets({ userId, pages }: { userId: string; pages
   return ordersEvent.length > 0 ? (
     <div className="flex flex-col gap-3">
       <ul
-        className="grid gap-3 w-full"
+        className="grid gap-4 w-full"
         style={{
           gridTemplateColumns: "repeat(auto-fill, minmax(300px,1fr))",
         }}
@@ -32,9 +32,6 @@ export default async function Tickets({ userId, pages }: { userId: string; pages
   ) : (
     <div className="flex w-full flex-col gap-3 text-accent-foreground py-28 text-center">
       <code>No tickets available</code>
-      <h3 className="animate-fade animate-delay-300 text-5xl animate-once text-transparent italic font-paytone bg-transparent bg-gradient-to-r  from-violet-700 to-blue-700 bg-blend-multiply bg-clip-text">
-        DE
-      </h3>
     </div>
   );
 }

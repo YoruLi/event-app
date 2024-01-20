@@ -1,8 +1,6 @@
-import Pagination from "@/components/pagination";
 import Tickets from "@/components/tickets";
 import { auth } from "@clerk/nextjs";
 import React from "react";
-import { unknown } from "zod";
 
 export default function TicketsPage({ searchParams }: { searchParams: { pages: string } }) {
   const { sessionClaims } = auth();
